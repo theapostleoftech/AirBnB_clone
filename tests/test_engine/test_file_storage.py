@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 import unittest
-import json
+import json as js
 import os
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
+
 
 class TestFileStorage(unittest.TestCase):
     """
@@ -49,7 +50,7 @@ class TestFileStorage(unittest.TestCase):
         self.storage.new(model)
         self.storage.save()
         with open(self.file_path, "r", encoding="utf-8") as file:
-            data = json.load(file)
+            data = js.load(file)
             obj_key = f"{model.__class__.__name__}.{model.id}"
             self.assertIn(obj_key, data)
 
@@ -63,6 +64,7 @@ class TestFileStorage(unittest.TestCase):
         self.storage.reload()
         obj_key = f"{model.__class__.__name__}.{model.id}"
         self.assertIn(obj_key, self.storage.all())
+
 
 if __name__ == "__main__":
     unittest.main()
