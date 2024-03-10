@@ -37,7 +37,7 @@ class BaseModelTest(unittest.TestCase):
         """This tests the save method of the BaseModel class"""
         old_updated_at = self.my_model.updated_at
         self.my_model.save()
-        self.assertEqual(self.my_model.updated_at, old_updated_at)
+        self.assertNotEqual(self.my_model.updated_at, old_updated_at)
 
     def test_base_model_str(self):
         str_result = f"[BaseModel]" \

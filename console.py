@@ -77,7 +77,7 @@ class HBNBCommand(cmd.Cmd):
         then saves the chnages into the JSON file.
         Usage: destroy <class name> <id>
         """
-        args = arg.split(" ", 1)
+        args = arg.split()
         if not arg:
             print("** class name missing **")
         elif args[0] not in classes:
@@ -93,7 +93,7 @@ class HBNBCommand(cmd.Cmd):
             if not instance:
                 print("** no instance found **")
             else:
-                storage.delete(key)
+                del storage.all()[key]
                 storage.save()
                 # print(instance)
 
@@ -105,46 +105,70 @@ class HBNBCommand(cmd.Cmd):
                all
                <class name>.all()
         """
-        class_name, method_name = arg.split(".")
-        if method_name == "all()":
-            if class_name in classes:
-                instances = [str(obj) for obj in storage.all().values()
+        if "." in arg:
+            class_name, method_name = arg.split(".")
+            if method_name == "all()":
+                if class_name in classes:
+                    instances = [str(obj) for obj in storage.all().values()
                              if obj.__class__.__name__ == class_name]
-                print(instances)
-
-        args = arg.split(".")
-        if len(args) > 1 and args[1] == "all()":
-            class_name = args[0]
-            if class_name in classes:
-                instances = [str(obj) for obj in storage.all().values()
-                             if obj.__class__.__name__ == class_name]
-                print(instances)
+                    print(instances)
+                else:
+                    print("** class doesn't exist **")
             else:
+                print("** Unknown syntax: {}".format(arg))
+        elif arg:
+            if arg not in classes:
                 print("** class doesn't exist")
-        elif not arg:
-            instances = [str(obj) for obj in storage.all().values()]
-            print(instances)
-
-        elif arg not in classes:
-            print("** class doesn't exist")
+            else:
+                instances = [str(obj) for obj in storage.all().values()
+                         if obj.__class__.__name__ == arg]
+                print(instances)
         else:
             instances = [str(obj) for obj in storage.all().values()
                          if obj.__class__.__name__ == arg]
-            print(instances)
+            print(instances)         
+            
 
-    def default(self, arg):
-        args = arg.split(".")
-        if args[1] == "all()":
-            if args[0] in classes:
-                instances = [str(obj) for obj in storage.all().values()
-                             if obj.__class__.__name__ == args[0]]
-                print(instances)
-            else:
-                print("** class doesn't exist **")
+    #     class_name, method_name = arg.split(".")
+    #     if method_name == "all()":
+    #         if class_name in classes:
+    #             instances = [str(obj) for obj in storage.all().values()
+    #                          if obj.__class__.__name__ == class_name]
+    #             print(instances)
 
-        else:
+    #     args = arg.split(".")
+    #     if len(args) > 1 and args[1] == "all()":
+    #         class_name = args[0]
+    #         if class_name in classes:
+    #             instances = [str(obj) for obj in storage.all().values()
+    #                          if obj.__class__.__name__ == class_name]
+    #             print(instances)
+    #         else:
+    #             print("** class doesn't exist")
+    #     elif not arg:
+    #         instances = [str(obj) for obj in storage.all().values()]
+    #         print(instances)
 
-            print(f"*** Unknown syntax: {arg}")
+    #     elif arg not in classes:
+    #         print("** class doesn't exist")
+    #     else:
+    #         instances = [str(obj) for obj in storage.all().values()
+    #                      if obj.__class__.__name__ == arg]
+    #         print(instances)
+
+    # def default(self, arg):
+    #     args = arg.split(".")
+    #     if args[1] == "all()":
+    #         if args[0] in classes:
+    #             instances = [str(obj) for obj in storage.all().values()
+    #                          if obj.__class__.__name__ == args[0]]
+    #             print(instances)
+    #         else:
+    #             print("** class doesn't exist **")
+
+    #     else:
+
+    #         print(f"*** Unknown syntax: {arg}")
 
     def do_update(self, arg):
         """
@@ -152,7 +176,7 @@ class HBNBCommand(cmd.Cmd):
         and saves the chnage to a JSON file.
         Usage: update <class name> <id> <attribute name> "<attribute value>"
         """
-        args = arg.split(" ", 1)
+        args = arg.split()
         if not arg:
             print("** class name missing **")
         elif args[0] not in classes:
@@ -168,7 +192,8 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
             elif len(args) < 3:
                 print("** attribute name missing **")
-
+            elif len(args) < 4:
+                print("** value missing **")
             else:
                 setattr(instance, args[2], args[3].strip('"'))
                 instance.save()
