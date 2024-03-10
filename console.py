@@ -105,7 +105,32 @@ class HBNBCommand(cmd.Cmd):
                all
                <class name>.all()
         """
-        if "." in arg:
+        # if arg:
+        #     if "." in arg:
+        #         class_name, method_name = arg.split(".")
+        #         if method_name == "all()":
+        #             if class_name in classes:
+        #                 instances = [str(obj) for obj in storage.all().values()
+        #                      if obj.__class__.__name__ == class_name]
+        #                 print(instances)
+        #             else:
+        #                 print("** class doesn't exist **")
+        #         else:
+        #             print("** Unknown syntax: {}".format(arg))
+                    
+        #     elif arg in classes:
+        #          instances = [str(obj) for obj in storage.all().values()
+        #                  if obj.__class__.__name__ == arg]
+        #          print(instances)
+        #     else:
+        #         print("** class doesn't exist")
+        # else:
+        #     print(classes)
+
+        if not arg:
+            instances = [str(obj) for obj in storage.all().values()]
+            print(instances)
+        elif "." in arg:
             class_name, method_name = arg.split(".")
             if method_name == "all()":
                 if class_name in classes:
@@ -116,7 +141,9 @@ class HBNBCommand(cmd.Cmd):
                     print("** class doesn't exist **")
             else:
                 print("** Unknown syntax: {}".format(arg))
-        elif arg:
+
+        elif arg in classes:
+            
             if arg not in classes:
                 print("** class doesn't exist")
             else:
