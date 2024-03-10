@@ -4,6 +4,7 @@ from datetime import datetime
 
 
 class TestAmenity(unittest.TestCase):
+    """Test creating Amenity"""
     def test_amenity_creation(self):
         amenity = Amenity()
         self.assertIsInstance(amenity, Amenity)
@@ -11,16 +12,19 @@ class TestAmenity(unittest.TestCase):
         self.assertEqual(amenity.name, "")
 
     def test_amenity_attributes(self):
+        """Test amenity attributes"""
         amenity = Amenity()
         self.assertTrue(hasattr(amenity, 'id'))
         self.assertTrue(hasattr(amenity, 'created_at'))
         self.assertTrue(hasattr(amenity, 'updated_at'))
 
     def test_amenity_str(self):
+        """Test str representation of amenity"""
         amenity = Amenity()
         self.assertIsInstance(str(amenity), str)
 
     def test_amenity_save_method(self):
+        """Test amenity save method"""
         amenity = Amenity()
         first_updated_at = amenity.updated_at
         amenity.save()
@@ -28,6 +32,7 @@ class TestAmenity(unittest.TestCase):
         self.assertNotEqual(first_updated_at, second_updated_at)
 
     def test_amenity_to_dict_method(self):
+        """Test to_dict for amenity"""
         amenity = Amenity()
         amenity_dict = amenity.to_dict()
         self.assertIsInstance(amenity_dict, dict)
