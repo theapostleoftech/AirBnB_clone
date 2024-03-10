@@ -105,28 +105,6 @@ class HBNBCommand(cmd.Cmd):
                all
                <class name>.all()
         """
-        # if arg:
-        #     if "." in arg:
-        #         class_name, method_name = arg.split(".")
-        #         if method_name == "all()":
-        #             if class_name in classes:
-        #                 instances = [str(obj) for obj in storage.all().values()
-        #                      if obj.__class__.__name__ == class_name]
-        #                 print(instances)
-        #             else:
-        #                 print("** class doesn't exist **")
-        #         else:
-        #             print("** Unknown syntax: {}".format(arg))
-                    
-        #     elif arg in classes:
-        #          instances = [str(obj) for obj in storage.all().values()
-        #                  if obj.__class__.__name__ == arg]
-        #          print(instances)
-        #     else:
-        #         print("** class doesn't exist")
-        # else:
-        #     print(classes)
-
         if not arg:
             instances = [str(obj) for obj in storage.all().values()]
             print(instances)
@@ -134,8 +112,11 @@ class HBNBCommand(cmd.Cmd):
             class_name, method_name = arg.split(".")
             if method_name == "all()":
                 if class_name in classes:
-                    instances = [str(obj) for obj in storage.all().values()
-                             if obj.__class__.__name__ == class_name]
+                    instances = [
+                        str(obj)
+                        for obj in storage.all().values()
+                        if obj.__class__.__name__ == class_name
+                        ]
                     print(instances)
                 else:
                     print("** class doesn't exist **")
@@ -143,59 +124,19 @@ class HBNBCommand(cmd.Cmd):
                 print("** Unknown syntax: {}".format(arg))
 
         elif arg in classes:
-            
             if arg not in classes:
                 print("** class doesn't exist")
             else:
-                instances = [str(obj) for obj in storage.all().values()
-                         if obj.__class__.__name__ == arg]
+                instances = [
+                    str(obj)
+                    for obj in storage.all().values()
+                    if obj.__class__.__name__ == arg
+                    ]
                 print(instances)
         else:
             instances = [str(obj) for obj in storage.all().values()
                          if obj.__class__.__name__ == arg]
-            print(instances)         
-            
-
-    #     class_name, method_name = arg.split(".")
-    #     if method_name == "all()":
-    #         if class_name in classes:
-    #             instances = [str(obj) for obj in storage.all().values()
-    #                          if obj.__class__.__name__ == class_name]
-    #             print(instances)
-
-    #     args = arg.split(".")
-    #     if len(args) > 1 and args[1] == "all()":
-    #         class_name = args[0]
-    #         if class_name in classes:
-    #             instances = [str(obj) for obj in storage.all().values()
-    #                          if obj.__class__.__name__ == class_name]
-    #             print(instances)
-    #         else:
-    #             print("** class doesn't exist")
-    #     elif not arg:
-    #         instances = [str(obj) for obj in storage.all().values()]
-    #         print(instances)
-
-    #     elif arg not in classes:
-    #         print("** class doesn't exist")
-    #     else:
-    #         instances = [str(obj) for obj in storage.all().values()
-    #                      if obj.__class__.__name__ == arg]
-    #         print(instances)
-
-    # def default(self, arg):
-    #     args = arg.split(".")
-    #     if args[1] == "all()":
-    #         if args[0] in classes:
-    #             instances = [str(obj) for obj in storage.all().values()
-    #                          if obj.__class__.__name__ == args[0]]
-    #             print(instances)
-    #         else:
-    #             print("** class doesn't exist **")
-
-    #     else:
-
-    #         print(f"*** Unknown syntax: {arg}")
+            print(instances)
 
     def do_update(self, arg):
         """
