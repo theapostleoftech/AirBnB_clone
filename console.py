@@ -37,16 +37,6 @@ class HBNBCommand(cmd.Cmd):
         new_base_instance_id = new_base_instance.id
         print(new_base_instance_id)
 
-        # if class_name != 'BaseModel':
-        #     print("** class doesnt' exist")
-        #     return
-
-        # new_base_instance = BaseModel()
-        # new_base_instance_id = new_base_instance.id
-        # new_base_instance.save()
-        # print(new_base_instance_id)
-        # print(new_base_instance.created_at)
-
     def do_show(self, arg):
         """
         This method prints the string representation of an instance
@@ -163,10 +153,11 @@ class HBNBCommand(cmd.Cmd):
             elif len(args) < 4:
                 print("** value missing **")
             else:
+                instance_class = instance.__class__
                 attribute_types = {
-                    attr: type(getattr(args[0], attr))
-                    for attr in dir(args[0])
-                    if not callable(getattr(args[0], attr))
+                    attr: type(getattr(instance_class, attr))
+                    for attr in dir(instance_class)
+                    if not callable(getattr(instance_class, attr))
                     and not attr.startswith("__")
                 }
                 attr_type = attribute_types.get(args[2], str)
