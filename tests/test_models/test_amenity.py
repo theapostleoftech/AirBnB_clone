@@ -32,8 +32,14 @@ class TestAmenity(unittest.TestCase):
         amenity_dict = amenity.to_dict()
         self.assertIsInstance(amenity_dict, dict)
         self.assertEqual(amenity_dict['__class__'], 'Amenity')
-        self.assertIsInstance(datetime.fromisoformat(amenity_dict['created_at']), datetime)
-        self.assertIsInstance(datetime.fromisoformat(amenity_dict['updated_at']), datetime)
+        self.assertIsInstance(
+            datetime.fromisoformat(
+                amenity_dict['created_at']), datetime
+                )
+        self.assertIsInstance(
+            datetime.fromisoformat(
+                amenity_dict['updated_at']), datetime
+                )
 
 
 if __name__ == '__main__':
