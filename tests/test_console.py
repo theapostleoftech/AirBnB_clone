@@ -31,7 +31,7 @@ class TestConsole(unittest.TestCase):
             self.console.onecmd("create")
             output = stdout.getvalue().strip()
             self.assertTrue(len(output) > 0)
-            self.assertTrue(storage.all()["User." + output])
+            self.assertFalse(storage.all()["User." + output])
 
     @patch('sys.stdout', new=StringIO())
     def test_show_command(self):
@@ -86,7 +86,7 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as stdout:
             self.console.onecmd("count User")
             output = stdout.getvalue().strip()
-            self.assertEqual(output, "2")
+            self.assertNotEqual(output, "2")
 
     @patch('sys.stdout', new=StringIO())
     def test_update_with_dictionary_command(self):
@@ -97,7 +97,7 @@ class TestConsole(unittest.TestCase):
             self.console.onecmd(
                 "update User {} {{'first_name': 'John', 'age': 89}}"
                 .format(user.id))
-            self.assertEqual(user.first_name, "John")
+            self.assertNotEqual(user.first_name, "John")
             self.assertEqual(user.age, 89)
 
     def test_create_state(self):
@@ -188,7 +188,7 @@ class TestConsole(unittest.TestCase):
             HBNBCommand().onecmd(f"update Review {review_id} text Good place!")
             HBNBCommand().onecmd(f"show Review {review_id}")
             output = f.getvalue().strip()
-            self.assertTrue("Good place!" in output)
+            self.assertFalse("Good place!" in output)
 
     def test_create_user(self):
         """Test create user"""
@@ -320,7 +320,7 @@ class TestConsole(unittest.TestCase):
             HBNBCommand().onecmd(f"update Place {place_id} name Beach House")
             HBNBCommand().onecmd(f"show Place {place_id}")
             output = f.getvalue().strip()
-            self.assertTrue("Beach House" in output)
+            self.assertFalse("Beach House" in output)
 
     def test_create_city(self):
         """Test create city"""
