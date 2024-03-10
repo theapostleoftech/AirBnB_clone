@@ -7,6 +7,7 @@ from models import storage
 from models.base_model import BaseModel
 from models.user import User
 
+
 class TestConsole(unittest.TestCase):
     def setUp(self):
         """Set up the test environment"""
@@ -24,8 +25,9 @@ class TestConsole(unittest.TestCase):
     @patch('sys.stdout', new=StringIO())
     def test_create_command(self):
         """Test create command"""
-        with patch('sys.stdin', StringIO('User\n')) as stdin, \
-             patch('sys.stdout', new=StringIO()) as stdout:
+        with patch('sys.stdin',
+                   StringIO('User\n')
+                   ) as stdin, patch('sys.stdout', new=StringIO()) as stdout:
             self.console.onecmd("create")
             output = stdout.getvalue().strip()
             self.assertTrue(len(output) > 0)
@@ -69,7 +71,9 @@ class TestConsole(unittest.TestCase):
         user = User()
         user.save()
         with patch('sys.stdout', new=StringIO()) as stdout:
-            self.console.onecmd("update User {} first_name John".format(user.id))
+            self.console.onecmd(
+                "update User {} first_name John".format(user.id)
+                )
             self.assertEqual(user.first_name, "John")
 
     @patch('sys.stdout', new=StringIO())
@@ -90,7 +94,9 @@ class TestConsole(unittest.TestCase):
         user = User()
         user.save()
         with patch('sys.stdout', new=StringIO()) as stdout:
-            self.console.onecmd("update User {} {{'first_name': 'John', 'age': 89}}".format(user.id))
+            self.console.onecmd(
+                "update User {} {{'first_name': 'John', 'age': 89}}"
+                .format(user.id))
             self.assertEqual(user.first_name, "John")
             self.assertEqual(user.age, 89)
 
@@ -98,7 +104,7 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("create State")
             output = f.getvalue().strip()
-            self.assertTrue(len(output) == 36)  # Verifies the length of the generated UUID
+            self.assertTrue(len(output) == 36)
 
     def test_show_state(self):
         with patch('sys.stdout', new=StringIO()) as f:
@@ -140,7 +146,7 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("create Review")
             output = f.getvalue().strip()
-            self.assertTrue(len(output) == 36)  # Verifies the length of the generated UUID
+            self.assertTrue(len(output) == 36)
 
     def test_show_review(self):
         with patch('sys.stdout', new=StringIO()) as f:
@@ -176,12 +182,11 @@ class TestConsole(unittest.TestCase):
             output = f.getvalue().strip()
             self.assertTrue("Good place!" in output)
 
-
     def test_create_user(self):
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("create User")
             output = f.getvalue().strip()
-            self.assertTrue(len(output) == 36)  # Verifies the length of the generated UUID
+            self.assertTrue(len(output) == 36)
 
     def test_show_user(self):
         with patch('sys.stdout', new=StringIO()) as f:
@@ -221,7 +226,7 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("create Amenity")
             output = f.getvalue().strip()
-            self.assertTrue(len(output) == 36)  # Verifies the length of the generated UUID
+            self.assertTrue(len(output) == 36)
 
     def test_show_amenity(self):
         with patch('sys.stdout', new=StringIO()) as f:
@@ -261,7 +266,7 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("create Place")
             output = f.getvalue().strip()
-            self.assertTrue(len(output) == 36)  # Verifies the length of the generated UUID
+            self.assertTrue(len(output) == 36)
 
     def test_show_place(self):
         with patch('sys.stdout', new=StringIO()) as f:
@@ -301,7 +306,7 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("create City")
             output = f.getvalue().strip()
-            self.assertTrue(len(output) == 36)  # Verifies the length of the generated UUID
+            self.assertTrue(len(output) == 36)
 
     def test_show_city(self):
         with patch('sys.stdout', new=StringIO()) as f:
@@ -336,6 +341,7 @@ class TestConsole(unittest.TestCase):
             HBNBCommand().onecmd(f"show City {city_id}")
             output = f.getvalue().strip()
             self.assertTrue("Paris" in output)
+
 
 if __name__ == "__main__":
     unittest.main()
