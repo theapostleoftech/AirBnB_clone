@@ -1,1 +1,1 @@
-# AirBnB-clone project by
+# AirBnB-clone project by Chu
