@@ -222,8 +222,20 @@ class HBNBCommand(cmd.Cmd):
             elif len(args) < 4:
                 print("** value missing **")
             else:
-                setattr(instance, args[2], args[3].strip('"'))
-                instance.save()
+                attribute_types = {
+                    attr: type(getattr(args[0], attr))
+                    for attr in dir(args[0])
+                    if not callable(getattr(args[0], attr))
+                    and not attr.startswith("__")
+                }
+                attr_type = attribute_types.get(args[2], str)
+                try:
+                    attr_type(args[3].strip('"'))
+                except ValueError:
+                    print("** value is invalid **")
+                else:
+                    setattr(instance, args[2], args[3].strip('"'))
+                    instance.save()
 
     def do_quit(self, line):
 
