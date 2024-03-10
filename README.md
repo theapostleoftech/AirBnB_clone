@@ -1,1 +1,1 @@
-# AirBnB-clone project by Chukwunonso Nwankpa & Deb 
+# AirBnB-clone project by Chukwunonso Nwankpa & Deborah
