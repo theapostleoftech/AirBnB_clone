@@ -174,30 +174,15 @@ class HBNBCommand(cmd.Cmd):
         Retrieve the number of instances of a class.
         Usage: <class name>.count()
         """
-        args = arg.split(".")
-        if not arg:
+        args = arg.split(" ")
+        if not arg[0]:
             print("** class name missing **")
         elif args[0] not in classes:
             print("** class doesn't exist **")
-        elif len(args) == 1:
-            class_name = args[0]
-            count = 0
-            for obj in storage.all().values():
-                if obj.__class__.__name__ == class_name:
-                    count += 1
-            print(count)
-        elif len(args) == 2:
-            if args[1] == "count()":
-                class_name = args[0]
-                count = 0
-                for obj in storage.all().values():
-                    if obj.__class__.__name__ == class_name:
-                        count += 1
-                print(count)
-            else:
-                print("** Invalid command **")
         else:
-            print("** Invalid command **")
+            instances = [obj for obj in storage.all()
+                         if obj.startswith(args[0] + '.')]
+            print(len(instances))
 
     def do_quit(self, line):
 
