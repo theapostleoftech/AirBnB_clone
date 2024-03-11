@@ -8,8 +8,8 @@ from models.user import User
 
 class Place(BaseModel):
     """This holds the attributes for the Place Class """
-    city_id = City().id
-    user_id = User().id
+    city_id = ""
+    user_id = ""
     name = ""
     description = ""
     number_rooms = 0
