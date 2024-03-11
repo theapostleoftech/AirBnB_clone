@@ -95,10 +95,10 @@ class TestConsole(unittest.TestCase):
         user.save()
         with patch('sys.stdout', new=StringIO()) as stdout:
             self.console.onecmd(
-                "update User {} {{'first_name': 'John', 'age': 89}}"
+                "update User {} {{'first_name': 'John', 'password': "root"}}"
                 .format(user.id))
             self.assertNotEqual(user.first_name, "John")
-            self.assertEqual(user.age, 89)
+            self.assertEqual(user.password, "root")
 
     def test_create_state(self):
         """Test create state command"""
