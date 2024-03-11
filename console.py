@@ -128,6 +128,27 @@ class HBNBCommand(cmd.Cmd):
                          if obj.__class__.__name__ == arg]
             print(instances)
 
+    def default(self, arg):
+        """
+        Called when the command prefix is not recognized.
+        It handles the syntax `<class_name>.all()` to retrieve all instances of a class.
+        """
+        
+        class_name, method_name = arg.split(".")
+        if method_name == "all()":
+            if class_name in storage.classes():
+                instances = [
+                    str(obj) for obj in storage.all().values() 
+                    if obj.__class__.__name__ == class_name
+                    ]
+                print(instances)
+                
+            else:
+                print("** class doesn't exist **")
+                
+        else:
+            print(f"*** Unknown syntax: {arg}")
+
     def do_update(self, arg):
         """
         This method updates an instance based on the class name and id
@@ -183,6 +204,7 @@ class HBNBCommand(cmd.Cmd):
             instances = [obj for obj in storage.all()
                          if obj.startswith(args[0] + '.')]
             print(len(instances))
+
 
     def do_quit(self, line):
 
