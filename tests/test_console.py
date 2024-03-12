@@ -94,7 +94,8 @@ class TestConsole(unittest.TestCase):
         user = User()
         user.save()
         with patch('sys.stdout', new=StringIO()) as stdout:
-            self.console.onecmd("update User {} {{'first_name': 'John', 'password': 'root'}}"
+            self.console.onecmd(
+                "update User {} {{'first_name': 'John', 'password': 'root'}}"
                 .format(user.id))
             self.assertNotEqual(user.first_name, "John")
             self.assertNotEqual(user.password, "root")
