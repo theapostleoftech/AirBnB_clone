@@ -222,7 +222,7 @@ class HBNBCommand(cmd.Cmd):
                     attr: type(getattr(instance_class, attr))
                     for attr in dir(instance_class)
                     if not callable(getattr(instance_class, attr))
-                       and not attr.startswith("__")
+                    and not attr.startswith("__")
                 }
                 attr_type = attribute_types.get(args[2], str)
                 try:
