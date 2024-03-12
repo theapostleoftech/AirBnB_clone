@@ -78,10 +78,6 @@ class FileStorage:
 
         except FileNotFoundError:
             pass
-            
+           
         print(FileStorage.__objects)
 
-# storage = FileStorage()
-# storage.reload()  # Print the initial contents of __objects
-# storage.save()  # Save the instances to the JSON file
-# storage.reload() 
