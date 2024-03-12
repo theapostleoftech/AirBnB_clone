@@ -214,6 +214,25 @@ class HBNBCommand(cmd.Cmd):
                 storage.all().pop(key)
             else:
                 print("** no instance found **")
+        elif method_name == "update":
+            args_list = args[1].split("(")[1].split(")")[0].split(", ")
+            obj_id = args_list[0]
+            key = f"{class_name}.{obj_id}"
+            if key in storage.all():
+                obj = storage.all()[key]
+                if len(args_list) == 2:
+                    try:
+                        attr_dict = eval(args_list[1])
+                    except (NameError, SyntaxError):
+                        print("** Invalid syntax **")
+                        return
+                    for attr_name, attr_value in attr_dict.items():
+                        setattr(obj, attr_name, attr_value)
+                elif len(args_list) == 3:
+                    attr_name, attr_value = args_list[1], args_list[2]
+                    setattr(obj, attr_name, attr_value)
+            else:
+                print("** no instance found **")
 
         else:
             print(f"*** Unknown syntax: {arg}")
@@ -248,7 +267,7 @@ class HBNBCommand(cmd.Cmd):
                     attr: type(getattr(instance_class, attr))
                     for attr in dir(instance_class)
                     if not callable(getattr(instance_class, attr))
-                    and not attr.startswith("__")
+                       and not attr.startswith("__")
                 }
                 attr_type = attribute_types.get(args[2], str)
                 try:
