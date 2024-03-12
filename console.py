@@ -114,19 +114,27 @@ class HBNBCommand(cmd.Cmd):
                 print("** Unknown syntax: {}".format(arg))
 
         elif arg in classes:
-            if arg not in classes:
-                print("** class doesn't exist")
-            else:
-                instances = [
-                    str(obj)
-                    for obj in storage.all().values()
-                    if obj.__class__.__name__ == arg
-                    ]
-                print(instances)
-        else:
-            instances = [str(obj) for obj in storage.all().values()
-                         if obj.__class__.__name__ == arg]
+            instances = [
+                        str(obj)
+                        for obj in storage.all().values()
+                        if obj.__class__.__name__ == arg
+                        ]
             print(instances)
+        else:
+            print("** class doesn't exist **")
+        #     if arg not in classes:
+        #         print("** class doesn't exist")
+        #     else:
+        #         instances = [
+        #             str(obj)
+        #             for obj in storage.all().values()
+        #             if obj.__class__.__name__ == arg
+        #             ]
+        #         print(instances)
+        # else:
+        #     instances = [str(obj) for obj in storage.all().values()
+        #                  if obj.__class__.__name__ == arg]
+        #     print(instances)
 
     def default(self, arg):
         """
