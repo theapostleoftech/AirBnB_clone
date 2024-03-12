@@ -63,18 +63,30 @@ class FileStorage:
         }
         return classes
 
-    def reload(self):
-        """This deserializes the JSON file to __objects if it exists;
-        and does nothing if it does not exist."""
-        try:
-            with open(FileStorage.__file_path, "r",
-                      encoding="utf-8") as read_jsonfile:
-                deserialized_data = js.load(read_jsonfile)
-                for key, value in deserialized_data.items():
-                    class_name, obj_id = key.split(".")
-                    obj = self.classes().get(class_name)
-                    if obj:
-                        FileStorage.__objects[key] = obj(**value)
+    # def reload(self):
+    #     """This deserializes the JSON file to __objects if it exists;
+    #     and does nothing if it does not exist."""
+    #     try:
+    #         with open(FileStorage.__file_path, "r",
+    #                   encoding="utf-8") as read_jsonfile:
+    #             deserialized_data = js.load(read_jsonfile)
+    #             for key, value in deserialized_data.items():
+    #                 class_name, obj_id = key.split(".")
+    #                 obj = self.classes().get(class_name)
+    #                 if obj:
+    #                     FileStorage.__objects[key] = obj(**value)
 
+    #     except FileNotFoundError:
+    #         pass
+
+    def reload(self):
+        """Deserializes the JSON file to __objects (only if the JSON file exists)"""
+        try:
+            with open(self.__file_path, encoding="utf-8") as f:
+                json_dict = js.load(f)
+                for obj in json_dict.values():
+                    cls_name = obj["__class__"]
+                    del obj["__class__"]
+                    self.__objects[obj["id"]] = eval(cls_name)(**obj)
         except FileNotFoundError:
             pass
