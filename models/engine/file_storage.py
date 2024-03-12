@@ -79,5 +79,5 @@ class FileStorage:
         except FileNotFoundError:
             pass
            
-        print(FileStorage.__objects)
+        return FileStorage.__objects
 
