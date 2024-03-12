@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """This contains modules for the FileStorage"""
 import json as js
-import os
 
 
 class FileStorage:
@@ -9,7 +8,7 @@ class FileStorage:
     instances to a JSON file and deserializes
     JSON file to instance."""
 
-    __file_path = os.path.join(os.getcwd(), "file.json")
+    __file_path = "file.json"
     __objects = {}
 
     # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
