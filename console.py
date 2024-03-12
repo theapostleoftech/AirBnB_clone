@@ -144,13 +144,23 @@ class HBNBCommand(cmd.Cmd):
         
         class_name, method_name = arg.split(".")
         if method_name == "all()":
-            if class_name in storage.classes():
+            if class_name in classes:
                 instances = [
                     str(obj) for obj in storage.all().values() 
                     if obj.__class__.__name__ == class_name
                     ]
                 print(instances)
                 
+            else:
+                print("** class doesn't exist **")
+
+        elif method_name == "count()":
+            if class_name in classes:
+                count = sum(
+                    1 for obj in storage.all().values()
+                    if obj.__class__.__name__ == class_name
+                )
+                print(count)
             else:
                 print("** class doesn't exist **")
                 
