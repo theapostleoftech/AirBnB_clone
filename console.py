@@ -122,51 +122,6 @@ class HBNBCommand(cmd.Cmd):
             print(instances)
         else:
             print("** class doesn't exist **")
-        #     if arg not in classes:
-        #         print("** class doesn't exist")
-        #     else:
-        #         instances = [
-        #             str(obj)
-        #             for obj in storage.all().values()
-        #             if obj.__class__.__name__ == arg
-        #             ]
-        #         print(instances)
-        # else:
-        #     instances = [str(obj) for obj in storage.all().values()
-        #                  if obj.__class__.__name__ == arg]
-        #     print(instances)
-
-    # def default(self, arg):
-    #     """
-    #     Called when the command prefix is not recognized.
-    #     It handles the syntax `<class_name>.all()`
-    #     to retrieve all instances of a class.
-    #     """
-    #
-    #     class_name, method_name = arg.split(".")
-    #     if method_name == "all()":
-    #         if class_name in classes:
-    #             instances = [
-    #                 str(obj) for obj in storage.all().values()
-    #                 if obj.__class__.__name__ == class_name
-    #             ]
-    #             print(instances)
-    #
-    #         else:
-    #             print("** class doesn't exist **")
-    #
-    #     elif method_name == "count()":
-    #         if class_name in classes:
-    #             count = sum(
-    #                 1 for obj in storage.all().values()
-    #                 if obj.__class__.__name__ == class_name
-    #             )
-    #             print(count)
-    #         else:
-    #             print("** class doesn't exist **")
-    #
-    #     else:
-    #         print(f"*** Unknown syntax: {arg}")
 
     def default(self, arg):
         """

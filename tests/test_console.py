@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+import io
+import sys
 import unittest
 from io import StringIO
 from unittest.mock import patch
@@ -365,6 +367,158 @@ class TestConsole(unittest.TestCase):
             HBNBCommand().onecmd(f"show City {city_id}")
             output = f.getvalue().strip()
             self.assertTrue("Paris" in output)
+
+    
+    @staticmethod
+    def get_output(function, *args):
+        """Capture stdout from a function."""
+        captured_output = io.StringIO()
+        sys.stdout = captured_output
+        function(*args)
+        sys.stdout = sys.__stdout__
+        return captured_output.getvalue()
+
+    def test_create(self):
+        with patch("sys.stdout", new=io.StringIO()) as f:
+            self.console.onecmd("create BaseModel")
+            output = f.getvalue().strip()
+            self.assertIsInstance(output, str)
+            self.assertTrue(len(output) == 36)  # Assuming UUID length
+
+    def test_create_missing_classname(self):
+        output = self.get_output(self.console.onecmd, "create")
+        self.assertEqual(output, "** class name missing **")
+
+    def test_create_invalid_classname(self):
+        output = self.get_output(self.console.onecmd, "create InvalidClass")
+        self.assertEqual(output, "** class doesn't exist **")
+
+    def test_show(self):
+        with patch("sys.stdout", new=io.StringIO()) as f:
+            self.console.onecmd("create BaseModel")
+            instance_id = f.getvalue().strip()
+            self.console.onecmd(f"show BaseModel {instance_id}")
+            output = f.getvalue().strip()
+            self.assertIn("BaseModel", output)
+            self.assertIn(instance_id, output)
+
+    def test_show_missing_classname(self):
+        output = self.get_output(self.console.onecmd, "show")
+        self.assertEqual(output, "** class name missing **")
+
+    def test_show_invalid_classname(self):
+        output = self.get_output(self.console.onecmd, "show InvalidClass")
+        self.assertEqual(output, "** class doesn't exist **")
+
+    def test_show_missing_instance_id(self):
+        output = self.get_output(self.console.onecmd, "show BaseModel")
+        self.assertEqual(output, "** instance id missing **")
+
+    def test_show_invalid_instance_id(self):
+        output = self.get_output(self.console.onecmd, "show BaseModel 123")
+        self.assertEqual(output, "** no instance found **")
+
+    def test_destroy(self):
+        with patch("sys.stdout", new=io.StringIO()) as f:
+            self.console.onecmd("create BaseModel")
+            instance_id = f.getvalue().strip()
+            self.console.onecmd(f"destroy BaseModel {instance_id}")
+            output = f.getvalue().strip()
+            self.assertFalse(output)
+            self.assertNotIn(instance_id, storage.all())
+
+    def test_destroy_missing_classname(self):
+        output = self.get_output(self.console.onecmd, "destroy")
+        self.assertEqual(output, "** class name missing **")
+
+    def test_destroy_invalid_classname(self):
+        output = self.get_output(self.console.onecmd, "destroy InvalidClass")
+        self.assertEqual(output, "** class doesn't exist **")
+
+    def test_destroy_missing_instance_id(self):
+        output = self.get_output(self.console.onecmd, "destroy BaseModel")
+        self.assertEqual(output, "** instance id missing **")
+
+    def test_destroy_invalid_instance_id(self):
+        output = self.get_output(self.console.onecmd, "destroy BaseModel 123")
+        self.assertEqual(output, "** no instance found **")
+
+    def test_all(self):
+        with patch("sys.stdout", new=io.StringIO()) as f:
+            self.console.onecmd("create BaseModel")
+            self.console.onecmd("create User")
+            self.console.onecmd("all")
+            output = f.getvalue().strip()
+            self.assertIn("BaseModel", output)
+            self.assertIn("User", output)
+
+    def test_all_invalid_classname(self):
+        output = self.get_output(self.console.onecmd, "all InvalidClass")
+        self.assertEqual(output, "** class doesn't exist **")
+
+    def test_update(self):
+        with patch("sys.stdout", new=io.StringIO()) as f:
+            self.console.onecmd("create BaseModel")
+            instance_id = f.getvalue().strip()
+            self.console.onecmd(f"update BaseModel {instance_id} name 'test'")
+            self.assertEqual(storage.all()["BaseModel." + instance_id].name, "test")
+
+    def test_update_missing_classname(self):
+        output = self.get_output(self.console.onecmd, "update")
+        self.assertEqual(output, "** class name missing **")
+
+    def test_update_invalid_classname(self):
+        output = self.get_output(self.console.onecmd, "update InvalidClass")
+        self.assertEqual(output, "** class doesn't exist **")
+
+    def test_update_missing_instance_id(self):
+        output = self.get_output(self.console.onecmd, "update BaseModel")
+        self.assertEqual(output, "** instance id missing **")
+
+    def test_update_invalid_instance_id(self):
+        output = self.get_output(self.console.onecmd, "update BaseModel 123")
+        self.assertEqual(output, "** no instance found **")
+
+    def test_update_missing_attribute_name(self):
+        with patch("sys.stdout", new=io.StringIO()) as f:
+            self.console.onecmd("create BaseModel")
+            instance_id = f.getvalue().strip()
+            self.console.onecmd(f"update BaseModel {instance_id}")
+            output = f.getvalue().strip()
+            self.assertEqual(output, "** attribute name missing **")
+
+    def test_update_missing_value(self):
+        with patch("sys.stdout", new=io.StringIO()) as f:
+            self.console.onecmd("create BaseModel")
+            instance_id = f.getvalue().strip()
+            self.console.onecmd(f"update BaseModel {instance_id} name")
+            output = f.getvalue().strip()
+            self.assertEqual(output, "** value missing **")
+
+    def test_count(self):
+        with patch("sys.stdout", new=io.StringIO()) as f:
+            self.console.onecmd("create BaseModel")
+            self.console.onecmd("create BaseModel")
+            self.console.onecmd("count BaseModel")
+            output = f.getvalue().strip()
+            self.assertEqual(output, "2")
+
+    def test_count_missing_classname(self):
+        output = self.get_output(self.console.onecmd, "count")
+        self.assertEqual(output, "** class name missing **")
+
+    def test_count_invalid_classname(self):
+        output = self.get_output(self.console.onecmd, "count InvalidClass")
+        self.assertEqual(output, "** class doesn't exist **")
+
+    def test_quit(self):
+        with self.assertRaises(SystemExit):
+            self.console.onecmd("quit")
+
+    def test_EOF(self):
+        with self.assertRaises(SystemExit):
+            self.console.onecmd("EOF")
+
 
 
 if __name__ == "__main__":

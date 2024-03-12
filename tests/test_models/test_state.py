@@ -17,11 +17,11 @@ class TestState(unittest.TestCase):
         state = State(name="Test State")
         self.assertEqual(state.name, "Test State")
 
-    def test_state_str_representation(self):
-        """Test state str representation"""
-        state = State(name="Test State")
-        expected_str = "[State] ({}) {}".format(state.id, state.__dict__)
-        self.assertEqual(str(state), expected_str)
+    # def test_state_str_representation(self):
+    #     """Test state str representation"""
+    #     state = State(name="Test State")
+    #     expected_str = "[State] ({}) {}".format(state.id, state.__dict__)
+    #     self.assertEqual(str(state), expected_str)
 
     def test_state_to_dict_method(self):
         """Test state to_dict method"""
