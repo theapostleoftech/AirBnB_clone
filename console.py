@@ -207,6 +207,14 @@ class HBNBCommand(cmd.Cmd):
                 print(storage.all()[key])
             else:
                 print("** no instance found **")
+        elif method_name == "destroy":
+            obj_id = args[1].split("(")[1].split(")")[0]
+            key = f"{class_name}.{obj_id}"
+            if key in storage.all():
+                storage.all().pop(key)
+            else:
+                print("** no instance found **")
+
         else:
             print(f"*** Unknown syntax: {arg}")
 
