@@ -6,4 +6,5 @@ from models.state import State
 
 class City(BaseModel):
     """This holds the attributes for the City Class """
-    state_id = State().id
+    state_id = ""
+    name = ""

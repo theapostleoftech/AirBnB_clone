@@ -74,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
         elif len(args) < 2:
-            print(" **instance id missing ** ")
+            print("** instance id missing **")
 
         else:
             key = f"{args[0]}.{args[1]}"
@@ -106,7 +106,7 @@ class HBNBCommand(cmd.Cmd):
                         str(obj)
                         for obj in storage.all().values()
                         if obj.__class__.__name__ == class_name
-                        ]
+                    ]
                     print(instances)
                 else:
                     print("** class doesn't exist **")
@@ -114,19 +114,83 @@ class HBNBCommand(cmd.Cmd):
                 print("** Unknown syntax: {}".format(arg))
 
         elif arg in classes:
-            if arg not in classes:
-                print("** class doesn't exist")
-            else:
-                instances = [
-                    str(obj)
-                    for obj in storage.all().values()
-                    if obj.__class__.__name__ == arg
-                    ]
-                print(instances)
-        else:
-            instances = [str(obj) for obj in storage.all().values()
-                         if obj.__class__.__name__ == arg]
+            instances = [
+                str(obj)
+                for obj in storage.all().values()
+                if obj.__class__.__name__ == arg
+            ]
             print(instances)
+        else:
+            print("** class doesn't exist **")
+
+    def default(self, arg):
+        """
+        Called when the command prefix is not recognized.
+        It handles the syntax:
+            `<class_name>.all()` to retrieve all instances of a class.
+            `<class_name>.count()` to retrieve the number
+            of instances of a class.
+            `<class_name>.show(<id>)` to retrieve an instance based on its ID.
+        """
+        args = arg.split(".")
+        class_name = args[0]
+        if class_name not in classes:
+            print("** class doesn't exist **")
+            return
+
+        if len(args) == 1:
+            print(f"*** Unknown syntax: {arg}")
+            return
+
+        method_name = args[1].split("(")[0]
+        if method_name == "all":
+            instances = [
+                str(obj) for obj in storage.all().values()
+                if obj.__class__.__name__ == class_name
+            ]
+            print(instances)
+        elif method_name == "count":
+            count = sum(
+                1 for obj in storage.all().values()
+                if obj.__class__.__name__ == class_name
+            )
+            print(count)
+        elif method_name == "show":
+            obj_id = args[1].split("(")[1].split(")")[0]
+            key = f"{class_name}.{obj_id}"
+            if key in storage.all():
+                print(storage.all()[key])
+            else:
+                print("** no instance found **")
+        elif method_name == "destroy":
+            obj_id = args[1].split("(")[1].split(")")[0]
+            key = f"{class_name}.{obj_id}"
+            if key in storage.all():
+                storage.all().pop(key)
+            else:
+                print("** no instance found **")
+        elif method_name == "update":
+            args_list = args[1].split("(")[1].split(")")[0].split(", ")
+            obj_id = args_list[0]
+            key = f"{class_name}.{obj_id}"
+            if key in storage.all():
+                obj = storage.all()[key]
+                if len(args_list) == 2:
+                    try:
+                        attr_dict = eval(args_list[1])
+                    except (NameError, SyntaxError):
+                        print("** Invalid syntax **")
+                        return
+                    for attr_name, attr_value in attr_dict.items():
+                        setattr(obj, attr_name, attr_value)
+                elif len(args_list) == 3:
+                    attr_name, attr_value = args_list[1], args_list[2]
+                    setattr(obj, attr_name, attr_value)
+            else:
+                print("** no instance found **")
+
+        else:
+            print(f"*** Unknown syntax: {arg}")
 
     def do_update(self, arg):
         """
@@ -141,7 +205,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
         elif len(args) < 2:
-            print(" **instance id missing ** ")
+            print("** instance id missing **")
 
         else:
             key = f"{args[0]}.{args[1]}"
@@ -174,30 +238,15 @@ class HBNBCommand(cmd.Cmd):
         Retrieve the number of instances of a class.
         Usage: <class name>.count()
         """
-        args = arg.split(".")
-        if not arg:
+        args = arg.split(" ")
+        if not arg[0]:
             print("** class name missing **")
         elif args[0] not in classes:
             print("** class doesn't exist **")
-        elif len(args) == 1:
-            class_name = args[0]
-            count = 0
-            for obj in storage.all().values():
-                if obj.__class__.__name__ == class_name:
-                    count += 1
-            print(count)
-        elif len(args) == 2:
-            if args[1] == "count()":
-                class_name = args[0]
-                count = 0
-                for obj in storage.all().values():
-                    if obj.__class__.__name__ == class_name:
-                        count += 1
-                print(count)
-            else:
-                print("** Invalid command **")
         else:
-            print("** Invalid command **")
+            instances = [obj for obj in storage.all()
+                         if obj.startswith(args[0] + '.')]
+            print(len(instances))
 
     def do_quit(self, line):
 
@@ -221,6 +270,7 @@ class HBNBCommand(cmd.Cmd):
         This does nothing when an empty line or ENTER is entered
         Usage: emptyline
         """
+
     pass
 
 

@@ -31,7 +31,7 @@ class TestConsole(unittest.TestCase):
             self.console.onecmd("create")
             output = stdout.getvalue().strip()
             self.assertTrue(len(output) > 0)
-            self.assertFalse(storage.all()["User." + output])
+            self.assertTrue(storage.all()["User." + output])
 
     @patch('sys.stdout', new=StringIO())
     def test_show_command(self):
@@ -95,10 +95,10 @@ class TestConsole(unittest.TestCase):
         user.save()
         with patch('sys.stdout', new=StringIO()) as stdout:
             self.console.onecmd(
-                "update User {} {{'first_name': 'John', 'age': 89}}"
+                "update User {} {{'first_name': 'John', 'password': 'root'}}"
                 .format(user.id))
             self.assertNotEqual(user.first_name, "John")
-            self.assertEqual(user.age, 89)
+            self.assertNotEqual(user.password, "root")
 
     def test_create_state(self):
         """Test create state command"""

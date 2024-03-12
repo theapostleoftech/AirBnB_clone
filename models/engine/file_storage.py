@@ -78,3 +78,4 @@ class FileStorage:
 
         except FileNotFoundError:
             pass
+        return FileStorage.__objects
