@@ -5,12 +5,14 @@ Filters styles
 */
 
 .filters {
+    display: flex;
     color: white;
     height: 70px;
     width: 100%;
     border: 1px solid #DDDDDD;
     border-radius: 4px;
     position: relative;
+    align-items: center;
 }
 
 .button {
@@ -23,8 +25,6 @@ Filters styles
     border-radius: 4px;
     position: absolute;
     right: 30px;
-    top: 50%;
-    transform: translateY(-50%);  
 }
 
 .button:hover {

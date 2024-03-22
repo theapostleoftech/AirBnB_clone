@@ -13,7 +13,7 @@ Places CSS Styles
     text-align: left;
 }
 
-article {
+/* article {
     width: 390px;
     border: 1px solid #FF5A5F;
     border-radius: 4px;
@@ -22,11 +22,23 @@ article {
     display: inline-block;
     min-height: 250px;
     vertical-align: top;
+} */
+
+article {
+    width: 390px;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #FF5A5F;
+    border-radius: 4px;
+    display: inline-block;
+    justify-content: center;
+    /* vertical-align: top; */
+
 }
 
 article h2 {
     font-size: 30px;
-    margin-top: 0px;
+    /* margin-top: 0px; */
 }
 
 .price_by_night {
@@ -78,10 +90,9 @@ article h2 {
     margin-top: 10px;
 }
 
-.amenities,
 .reviews {
     text-align: left;
-    margin-top: 40px;
+    /* margin-top: 40px; */
 }
 
 .amenities h2,
@@ -94,15 +105,15 @@ article h2 {
 
 
 .amenities li {
-    
-    text-align:left;
+    text-align: left;
     list-style: none;
     margin-bottom: 20px;
     margin-top: 20px;
-} 
+    /* padding: 20px; */
+}
 
 
-.amenities h3 {
+.amenities>div h3 {
     font-size: 14px;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -114,8 +125,27 @@ article h2 {
     margin-bottom: 20px;
 }
 
-.amenities li.icon-tv {
-     background-image: url('../images/icon_tv.png');
-
+.icon-tv {
+    display: inline-block;
+    background-image: url('../images/icon_tv.png');
+    background-repeat: no-repeat;
+    padding: 20px;
+    align-content: space-around;
 }
 
+.icon-wifi {
+    display: inline-block;
+    background-image: url('../images/icon_wifi.png');
+    background-repeat: no-repeat;
+    padding: 20px;
+    align-content: space-around;
+    */
+}
+
+.icon-pets {
+    display: inline-block;
+    background-image: url('../images/icon_pets.png');
+    background-repeat: no-repeat;
+    padding: 20px;
+    align-content: space-around;
+}
